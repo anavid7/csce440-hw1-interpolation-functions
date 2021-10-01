@@ -4,7 +4,9 @@
  * 
  * Class: CSCE 440
  * Author: David Ryan
- * Data: 9/30/2021
+ * Data: 9/31/2021
+ * 
+ * compiled with: g++ -std=c++11 -Wall main.cpp -o ???Values.out
  */
 
 #include <iostream>
@@ -17,25 +19,28 @@ struct xyMap
     int y;
 };
 
-// Function to find the product term
-double calcAlpha(int i, double solveFor, double x[])
+// generates the terms needed based on the particular step of the sum
+double calcTermStep(int i, double solveFor, double x[])
 {
-    double pro = 1;
+    double term = 1;
     for (int j = 0; j < i; j++)
     {
-        pro = pro * (solveFor - x[j]);
+        // each step gets progressively more terms
+        term = term * (solveFor - x[j]);
     }
-    return pro;
+    return term;
 }
 
-// Function for calculating
-// divided difference table
-void dividedDifferencesTable(double x[], double y[][10], int len)
+
+void generateTable(double x[], int len, double y[][9])
 {
     for (int i = 1; i < len; i++)
     {
         for (int j = 0; j < len - i; j++)
         {
+            // inserting values based on divided difference formula
+            // the only row that matters is y[0][1,2,3,4,5,6...]
+            // but the rest of the rows must be calculated to determin the top row
             y[j][i] = (y[j][i - 1] - y[j + 1]
                                       [i - 1]) /
                       (x[j] - x[i + j]);
@@ -43,16 +48,15 @@ void dividedDifferencesTable(double x[], double y[][10], int len)
     }
 }
 
-// Function for applying Newton's
-// divided difference formula
-double dividedDifferences(double solveFor, double x[],
-                   double y[][10], int len)
+double dividedDifferences(double solveFor, int len, double x[],
+                          double y[][9])
 {
     double sum = y[0][0];
 
     for (int i = 1; i < len; i++)
     {
-        sum = sum + (calcAlpha(i, solveFor, x) * y[0][i]);
+        // summing individual terms
+        sum = sum + (calcTermStep(i, solveFor, x) * y[0][i]);
     }
     return sum;
 }
@@ -61,9 +65,6 @@ double dividedDifferences(double solveFor, double x[],
 int main()
 {
     // number of inputs given
-    int len = 4;
-    double value, sum, y[10][10];
-    double x[] = {6, 8, 12, 14};
 
     //xyMap firstValues[] = {{7, 30}, {9, 30}, {11, 29}, {13, 30}, {15, 31}, {17, 30}, {19, 30}, {21, 29}, {23, 30}}; // len = 9
 
@@ -107,20 +108,32 @@ int main()
         4 14 31
      */
 
+    // insert y values into 2d array
+    int len = 4;
 
-    y[0][0] = 29;
-    y[1][0] = 29;
-    y[2][0] = 30;
-    y[3][0] = 31;
+    double y[9][9];
 
-    // calculating divided difference table
-    dividedDifferencesTable(x, y, len);
+    for (int i = 0; i < len; i++)
+    {
+        y[i][0] = fourthValues[i].y;
+    }
+
+    double x[len];
+
+    // insert x values into refernce array
+    for (int i = 0; i < len; i++)
+    {
+        x[i] = fourthValues[i].x;
+    }
+
+    // generating divided difference table
+    generateTable(x, len, y);
 
     // value to be interpolated
     double solveFor = 10;
 
-    // printing the value
-    cout << "\nValue at " << solveFor << " is "
-         << dividedDifferences(solveFor, x, y, len) << endl;
+    cout << "Using Newton's Divided Differences method of interpolation:" << endl;
+    cout << "f(" << solveFor << ") = " << dividedDifferences(solveFor, len, x, y) << endl;
+
     return 0;
 }

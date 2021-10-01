@@ -5,8 +5,9 @@
  * Class: CSCE 440
  * Author: David Ryan
  * Data: 9/30/2021
+ * 
+ * compiled with: g++ -std=c++11 -Wall main.cpp -o ???Values.out
  */
-
 
 
 #include <iostream>
@@ -47,13 +48,13 @@ int main()
 {
 
 
-    //xyMap firstValues[] = {{7, 30}, {9, 30}, {11, 29}, {13, 30}, {15, 31}, {17, 30}, {19, 30}, {21, 29}, {23, 30}}; // len = 9
+    xyMap firstValues[] = {{7, 30}, {9, 30}, {11, 29}, {13, 30}, {15, 31}, {17, 30}, {19, 30}, {21, 29}, {23, 30}}; // len = 9
     
     //xyMap secondValues[] = {{4, 29}, {6, 29}, {8, 30}, {9, 31}, {11, 30}, {13, 30}, {14, 29}, {16, 28}, {20, 29}};  // len = 9
     
-    //xyMap thirdValues[] = {{8, 30}, {12, 31}, {15, 30}, {16, 29}};                                                  // len = 4
+    //yMap thirdValues[] = {{8, 30}, {12, 31}, {15, 30}, {16, 29}};                                                  // len = 4
     
-    xyMap fourthValues[] = {{6, 29}, {8, 29}, {12, 30}, {14, 31}};                                                  // len = 4
+    //xyMap fourthValues[] = {{6, 29}, {8, 29}, {12, 30}, {14, 31}};                                                  // len = 4
 
     /**
         Data points
@@ -93,7 +94,7 @@ int main()
 
 
     cout << "Using Lagrange method of interpolation:" << endl;
-    cout << "f(" << solveFor << ") = " << lagrange(fourthValues, 4, solveFor) << endl;
+    cout << "f(" << solveFor << ") = " << lagrange(firstValues, 9, solveFor) << endl;
 
     return 0;
 }

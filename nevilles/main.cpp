@@ -5,6 +5,8 @@
  * Class: CSCE 440
  * Author: David Ryan
  * Data: 9/30/2021
+ * 
+ * compiled with: g++ -std=c++11 -Wall main.cpp -o ???Values.out
  */
 
 #include <iostream>
@@ -83,7 +85,7 @@ int main()
     int solveFor = 10;
 
     cout << "Using Naville's method of interpolation:" << endl;
-    cout << "f(" << solveFor << ") = " << navilles(fourthValues, 9, solveFor) << endl;
+    cout << "f(" << solveFor << ") = " << navilles(fourthValues, 4, solveFor) << endl;
 
     return 0;
 }
